@@ -42,7 +42,7 @@ st.write(
 # Input area for the news article
 news = st.text_area(
     "News Article",
-    height=250,
+    height=150,
     placeholder="Paste the news article here..."
 )
 
