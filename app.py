@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "http://127.0.0.1:8000/predict"
+API_URL = "https://fake-news-detector-cqw3.onrender.com/predict"
 
 # Configure the Streamlit page
 st.set_page_config(
