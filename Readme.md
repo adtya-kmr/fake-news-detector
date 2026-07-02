@@ -8,7 +8,7 @@ An end-to-end **Fake News Detection** web application that classifies news artic
 
 > Replace this with your application screenshot.
 
-![Application Screenshot](assets/app_ui.png)
+![Application Screenshot](assets/ui.png)
 
 ---
 
