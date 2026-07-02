@@ -27,8 +27,11 @@ def predict_news(text):
         return result["prediction"], result["confidence"]
 
     except requests.exceptions.RequestException:
-        st.error("❌ Could not connect to the FastAPI server. " \
-                    "Make sure the server is running and try again.")
+        st.error(
+            "The request timed out. " \
+            "The backend may be starting after being idle. " \
+            "Please wait a moment and try again."
+        )
         st.stop()
 
 
