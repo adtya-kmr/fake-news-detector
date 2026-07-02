@@ -17,7 +17,7 @@ def predict_news(text):
         response = requests.post(
             API_URL,
             json={"text": text},
-            timeout=10
+            timeout=60
         )   
         
         response.raise_for_status()
@@ -27,7 +27,8 @@ def predict_news(text):
         return result["prediction"], result["confidence"]
 
     except requests.exceptions.RequestException:
-        st.error("❌ Could not connect to the FastAPI server. Make sure the server is running and try again.")
+        st.error("❌ Could not connect to the FastAPI server. " \
+                    "Make sure the server is running and try again.")
         st.stop()
 
 
