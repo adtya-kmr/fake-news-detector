@@ -1,5 +1,7 @@
 import streamlit as st
 import requests
+import threading
+import time
 
 API_URL = "https://fake-news-api-ise0.onrender.com/predict"
 
@@ -58,10 +60,50 @@ if st.button("🔍 Predict"):
         st.warning("Please enter a news article.")
         st.stop()
 
-    with st.spinner(
-        "Analyzing the article... The first request may take up to a minute if the backend is starting."
-    ):
+    result = {}
+
+    def worker():
         prediction, confidence = predict_news(news)
+        result["prediction"] = prediction
+        result["confidence"] = confidence
+
+    # Start prediction in the background
+    thread = threading.Thread(target=worker)
+    thread.start()
+
+    progress = st.progress(
+        0,
+        text="🚀 Starting backend... (This may take up to a minute on the first request)"
+    )
+
+    value = 0
+
+    while thread.is_alive():
+
+        if value < 20:
+            message = "🚀 Starting backend..."
+        elif value < 30:
+            message = "📦 Loading model..."
+        elif value < 40:
+            message = "🧠 Analyzing article..."
+        else:
+            message = "⏳ Finalizing prediction..."
+
+        value = min(value + 1, 95)
+        progress.progress(value, text=message)
+
+        time.sleep(0.4)
+
+    thread.join()
+
+    progress.progress(100, text="✅ Analysis complete!")
+    time.sleep(0.5)
+    progress.empty()
+
+    prediction = result["prediction"]
+    confidence = result["confidence"]
+    
+    prediction, confidence = predict_news(news)
 
     st.divider()
 
@@ -92,7 +134,7 @@ st.sidebar.markdown("""
 - **Feature Extraction:** TF-IDF
 - **N-grams:** Unigrams + Bigrams
 - **Dataset:** WELFake Dataset
-- **Training Accuracy:** 97.82%
+- **Training Accuracy:** 98.0%
 
 ### Deployment
 
