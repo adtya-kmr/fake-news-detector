@@ -92,7 +92,7 @@ if st.button("🔍 Predict"):
         value = min(value + 1, 95)
         progress.progress(value, text=message)
 
-        time.sleep(0.1)
+        time.sleep(0.3)
 
     thread.join()
 
